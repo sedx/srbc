@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Srbc::VERSION
   spec.authors       = ["Ilya Bondarenko"]
   spec.email         = ["bondarenko.ik@gmail.com"]
-  spec.summary       = %q{SRBC extend windows comand line. You can run ruby file without print ruby and file extension}
-  spec.description   = %q{Start ruby Console let execute ruby files without print "ruby" and "rb" extention}
+  spec.summary       = %q{SRBC extend windows comand line. Provide easy way to run ruby scripts}
+  spec.description   = %q{Start ruby Console with extend features. Let execute ruby files without print "ruby" and "rb" extention}
   spec.homepage      = ""
   spec.license       = "MIT"
 
@@ -20,4 +20,5 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler", "~> 1.6"
   spec.add_development_dependency "rake"
+  spec.executables << 'srbc.exe'
 end
