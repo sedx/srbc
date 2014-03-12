@@ -1,25 +1,26 @@
 #require "srbc/version"
 
-module Srbc
+class SRBC
 
     #write extension to file/ return - extension array
     def set_settings(settings)
+      #todo :add check unicque
+      @ext << settings
       File.open("C:\\Program Files\\srbc\\settings.yml", 'w') do |file|
-        file.write settings.to_yaml
+        file.write @ext.to_yaml
       end
-      YAML::load_file "C:\\Program Files\\srbc\\settings.yml"
     end
 
 
   #try read settings, if not exsist crate settings file
     def read_settings
       begin
-        return YAML::load_file "C:\\Program Files\\srbc\\settings.yml"
+        @ext =  YAML::load_file "C:\\Program Files\\srbc\\settings.yml"
       rescue
         unless File.directory? "C:\\Program Files\\srbc\\"
           FileUtils.makedirs "C:\\Program Files\\srbc\\"
         end
-        return set_settings ['*.rb']
+         set_settings ['*.rb']
       end
     end
 
@@ -50,16 +51,16 @@ module Srbc
 
 
         when 'list'
-          puts $ext
+          puts @ext
 
-        when /@add/
-          new_ext = cmd.gsub '@add ', ''
-          if new_ext =~ /^\*\.\w*$/
-            ext << new_ext
+        when /add/
+          new_ext = command.gsub 'add ', ''
+          if new_ext =~ /^\*\..*$/ && new_ext !~ /^\*\.$/
+            set_settings new_ext
           else
             puts 'Wrong format! You muts type "@add *.extenssion"'
           end
-          set_settings ext
+
 
         else
           puts "Unknow SRBC command. Use @help for help"
@@ -71,12 +72,22 @@ module Srbc
       file_list =[]
 
       #get file list each extension specified in settings.yml
-      ext.each do |extension|
+      @ext.each do |extension|
         file = Dir.glob extension
 
         #delete files not compare with typed file name
         file.delete_if {|f| f !~ /#{name}/}
         file_list = file_list.concat file
       end
+      return file_list
     end
+
+  def run_programm(name)
+    system "#{name}"
+  end
+
+  def run_file(name)
+    system "ruby #{name}"
+  end
+
 end

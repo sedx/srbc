@@ -3,13 +3,14 @@ require 'readline'
 require 'yaml'
 require 'fileutils'
 require_relative './lib/srbc'
-include Srbc
+
 
 system 'cls'
 puts 'Loading Smart Ruby Console'
 puts '__________________________'
 
-ext = read_settings
+srbc = SRBC.new
+srbc.read_settings
 
 puts "\n print @help for help\n\n"
 
@@ -34,7 +35,7 @@ while $x do
 
   #if user type command start with @ - run srbc command
   if cmd =~ /^@/
-    srbc_command cmd.gsub "@", ""
+    srbc.srbc_command cmd.gsub "@", ""
   else
 
   case cmd
@@ -64,17 +65,20 @@ while $x do
     # run app or other program
     else
 
-      file_list = get_file_list cmd
+      file_list = srbc.get_file_list cmd
 
       #run file if find only one
       if file_list.length == 1
-        system "ruby #{file_list[0]}"
+        srbc.run_file file_list[0]
+
       #  не найдено фалов - значит команда
       elsif file_list.length == 0
         p "run command #{cmd}"
-        system cmd
+        srbc.run_programm cmd
+
       # в остальных случаях файлов > 1
       else
+
         puts 'We find, more than one file:'
 
         i = 0
@@ -86,7 +90,7 @@ while $x do
         while num_file.to_i < 0
           puts "Choose file to run (type @ and number of file)"
           num_file = gets.chomp.gsub "@", ""
-          system "ruby #{file_list[num_file.to_i]}"
+          srbc.run_file file_list[(num_file.to_i) -1 ]
         end
         #todo: run file with arguments. spit to array by " "
       end
