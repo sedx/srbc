@@ -2,24 +2,32 @@ require "srbc/version"
 
 
 class SRBC
+    attr_accessor :settings
 
-    def initialize
+    def initialize(executor)
       @ext = []
       @gem_root = Gem.loaded_specs['srbc'].full_gem_path
+      @executor = executor
+      @settings ={}
 
 
     end
     #write extension to file/ return - extension array
-    def set_settings(settings)
+    def set_settings(executor, extension)
+      if extension =~ /^\*\..*$/ && extension !~ /^\*\.$/
 
       #сheck added extension early or not
-      unless @ext.include? settings
-        @ext << settings
-        File.open("#{@gem_root}/settings.yml", 'w') do |file|
-          file.write @ext.to_yaml
-        end
+      unless @ext.include? extension
+        @ext << extension
       else
         puts 'Extension already added'
+      end
+        @settings[executor] = @ext
+        File.open("#{@gem_root}/settings.yml", 'w') do |file|
+        file.write @settings.to_yaml
+        end
+      else
+      puts 'Wrong format! You muts type "@add *.extenssion"'
       end
     end
 
@@ -27,52 +35,32 @@ class SRBC
   #try read settings, if not exsist crate settings file
     def read_settings
       begin
-        @ext =  YAML::load_file "#{@gem_root}/settings.yml"
-      rescue
-        set_settings '*.rb'
+        @settings =  YAML::load_file "#{@gem_root}/settings.yml"
       end
     end
 
+
     def srbc_command(command)
       case command
-        when 'exit'
+        when 'e','exit'
           $x = false
           puts 'Exiting Smart Ruby Console'
 
-        when 'help'
-          puts "\n Smart Ruby Console help"
-          puts "=======================\n"
-
-          puts "\n\nUsage:    You can run *.rb files, or other in ruby
-            Just print 'srbc' to execute 'ruby srbc.rb'
-            If in folder same files contains 'srbc' (for
-            example Class_main.rb and srbc.rb) SRBC ask you what file run
-
-            When SRBC run default MS symbol in console > replace with ~
-            "
-
-          puts 'Comands'
-
-          puts '| @help        | this help        |'
-          puts '| @list        | extension list   |'
-          puts '| @exit        | exit from app    |'
-          puts '| @add "*.rb"  | add extension    |'
-          puts "\n\n"
-
-
-        when 'list'
-          puts @ext
-
-        when /add/
-          new_ext = command.gsub 'add ', ''
-          if new_ext =~ /^\*\..*$/ && new_ext !~ /^\*\.$/
-            set_settings new_ext
-          else
-            puts 'Wrong format! You muts type "@add *.extenssion"'
+        when 'h','help'
+          File.open("#{@gem_root}/help", 'r') do |helpfile|
+            while line=helpfile.gets
+              puts line
+            end
           end
 
+        when 'l','list'
+          puts @ext
 
-        else
+        when /^a/
+          new_ext = command.gsub 'add ', ''
+
+          set_settings @executor, new_ext
+         else
           puts "Unknow SRBC command. Use @help for help"
       end
 
@@ -106,7 +94,15 @@ class SRBC
      system "ruby #{name} #{args}"
   end
 
-  def run
+  def run()
+
+    if @settings[@executor].nil?
+      puts "\n Executor not defined. Run srbc with -add:<executor> options "
+      $x = false
+    else
+      @ext = @settings[@executor]
+    end
+
     while $x do
       #get current path
       path = Dir.pwd
@@ -118,7 +114,7 @@ class SRBC
         Readline::HISTORY.pop
       end
 
-      cmd = command.gsub "#{path}~ ", ''
+      cmd = command.gsub("#{path}~ ", '').downcase
 
 
       #if user type command start with @ - run srbc command
@@ -194,7 +190,7 @@ class SRBC
         end
       end
   end
-
   end
+
 end
 

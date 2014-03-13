@@ -5,18 +5,52 @@ require 'yaml'
 require 'fileutils'
 require_relative '../lib/srbc'
 
-
-system 'cls'
-puts 'Loading Smart Ruby Console'
-puts '__________________________'
-
-srbc = SRBC.new
-srbc.read_settings
-
-puts "\n print @help for help\n\n"
-
-#it's trap for blick ctrl+c
-trap('INT') {puts "\nprint @exit"}
-
+#if x=true gem run, when x=false gem will exit
 $x=true
-srbc.run
+
+# chen how many options user specify
+if ARGV.length >1
+  puts "You can run ony one executor"
+
+#if user add
+elsif ARGV[0] =~/add:/
+  new_executor = ARGV[0].gsub( ' ','').gsub '-add:', ''
+  puts "Crate #{new_executor}"
+  srbc = SRBC.new(new_executor)
+  puts "Please, enter extension (in format *.rb')"
+  ext = $stdin.gets.chomp
+  srbc.read_settings
+  srbc.set_settings new_executor, ext
+  srbc.run
+
+elsif ARGV[0] =~/help/
+  srbc = SRBC.new("ruby")
+  srbc.srbc_command("help")
+
+elsif ARGV[0] =~/list/
+  srbc = SRBC.new("ruby")
+  srbc.read_settings
+  srbc.read_settings.each do |executor, extension|
+    puts "\n====="
+    puts "#{executor}"
+    puts "-----"
+    extension.each { |ext| puts "   #{ext}"}
+   end
+
+else
+
+  ARGV.empty? ? executor = 'ruby' : executor = ARGV[0].gsub("-","")
+  srbc = SRBC.new(executor)
+  puts "\nSmart Ruby Console. Executor: #{executor}"
+  puts '__________________________'
+  srbc.read_settings
+  if $x
+    puts "\n print @help for help\n\n"
+  end
+
+  #it's trap for blick ctrl+c
+  trap('INT') {puts "\nprint @exit"}
+
+  srbc.run
+
+end
