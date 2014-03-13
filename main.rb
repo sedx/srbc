@@ -21,7 +21,7 @@ $x=true
 
 while $x do
   #get current path
-  path = Dir.pwd
+  path = Dir.pwd.gsub "/", "\\"
 
   #wait command and realise history of command
     command = Readline.readline("#{path}~ ", true)
@@ -69,7 +69,9 @@ while $x do
 
       #run file if find only one
       if file_list.length == 1
-        srbc.run_file file_list[0]
+        file_list.each do |name, args|
+        srbc.run_file name, args
+      end
 
       #  не найдено фалов - значит команда
       elsif file_list.length == 0
@@ -82,17 +84,21 @@ while $x do
         puts 'We find, more than one file:'
 
         i = 0
+        numbered_files = {}
+        puts " 0 | Cancel "
         file_list.each do |file|
           i += 1
-          puts " #{i} | #{file}"
+          puts " #{i} | #{file[0]}"
+          numbered_files[i] = file[0]
         end
         num_file = -1
-        while num_file.to_i < 0
+        while num_file < 0
           puts "Choose file to run (type @ and number of file)"
-          num_file = gets.chomp.gsub "@", ""
-          srbc.run_file file_list[(num_file.to_i) -1 ]
+          num_file = gets.chomp.gsub("@", "").to_i
+          if num_file > 0
+            srbc.run_file numbered_files[num_file], file_list[numbered_files[num_file]]
+          end
         end
-        #todo: run file with arguments. spit to array by " "
       end
 
     end

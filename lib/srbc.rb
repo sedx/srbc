@@ -4,10 +4,15 @@ class SRBC
 
     #write extension to file/ return - extension array
     def set_settings(settings)
-      #todo :add check unicque
-      @ext << settings
-      File.open("C:\\Program Files\\srbc\\settings.yml", 'w') do |file|
-        file.write @ext.to_yaml
+
+      #сheck added extension early or not
+      unless @ext.include? settings
+        @ext << settings
+        File.open("C:\\Program Files\\srbc\\settings.yml", 'w') do |file|
+          file.write @ext.to_yaml
+        end
+      else
+        puts 'Extension already added'
       end
     end
 
@@ -69,16 +74,21 @@ class SRBC
     end
 
     def get_file_list (name)
-      file_list =[]
+      file_name = name.split(" ")[0]
+      args = name.split(" ")[1..name.split(" ").length-1].join" "
+      file_list ={}
 
       #get file list each extension specified in settings.yml
       @ext.each do |extension|
         file = Dir.glob extension
 
         #delete files not compare with typed file name
-        file.delete_if {|f| f !~ /#{name}/}
-        file_list = file_list.concat file
-      end
+        file.delete_if {|f| f !~ /#{file_name}/}
+        file.each do |file_nme|
+          file_list = file_list.merge Hash[file_nme, args]
+        end
+        end
+
       return file_list
     end
 
@@ -86,8 +96,10 @@ class SRBC
     system "#{name}"
   end
 
-  def run_file(name)
-    system "ruby #{name}"
+  def run_file(name, args="")
+    #todo: run file with arguments. spit to array by " "
+     #puts "RUNN: ruby #{name} #{args}"
+     system "ruby #{name} #{args}"
+    end
   end
 
-end

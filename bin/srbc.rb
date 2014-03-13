@@ -129,7 +129,6 @@ while x do
     # в остальных случаях файлов > 1
     else
       puts 'We find, more than one file:'
-      # TODO добавить выбор номера файла если их несколько в формате @1 - первый файл
       i = 0
       file_list.each do |file|
         i += 1
