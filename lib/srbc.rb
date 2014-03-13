@@ -8,7 +8,7 @@ class SRBC
       #сheck added extension early or not
       unless @ext.include? settings
         @ext << settings
-        File.open("C:\\Program Files\\srbc\\settings.yml", 'w') do |file|
+        File.open("settings.yml", 'w') do |file|
           file.write @ext.to_yaml
         end
       else
@@ -22,10 +22,7 @@ class SRBC
       begin
         @ext =  YAML::load_file "C:\\Program Files\\srbc\\settings.yml"
       rescue
-        unless File.directory? "C:\\Program Files\\srbc\\"
-          FileUtils.makedirs "C:\\Program Files\\srbc\\"
-        end
-         set_settings ['*.rb']
+        set_settings ['*.rb']
       end
     end
 
@@ -40,9 +37,9 @@ class SRBC
           puts "=======================\n"
 
           puts "\n\nUsage:    You can run *.rb files, or other in ruby
-            Just print 'main' to execute 'ruby main.rb'
-            If in folder same files contains 'main' (for
-            example Class_main.rb and main.rb) SRBC ask you what file run
+            Just print 'srbc' to execute 'ruby srbc.rb'
+            If in folder same files contains 'srbc' (for
+            example Class_main.rb and srbc.rb) SRBC ask you what file run
 
             When SRBC run default MS symbol in console > replace with ~
             "
@@ -100,6 +97,96 @@ class SRBC
     #todo: run file with arguments. spit to array by " "
      #puts "RUNN: ruby #{name} #{args}"
      system "ruby #{name} #{args}"
-    end
+  end
+
+  def run
+    while $x do
+      #get current path
+      path = Dir.pwd
+
+      #wait command and realise history of command
+      command = Readline.readline("#{path.gsub "/", "\\"}~ ", true)
+      command = nil if command.nil?
+      if command =~ /^\s*$/ or Readline::HISTORY.to_a[-2] == command
+        Readline::HISTORY.pop
+      end
+
+      cmd = command.gsub "#{path}~ ", ''
+
+
+      #if user type command start with @ - run srbc command
+      if cmd =~ /^@/
+        srbc.srbc_command cmd.gsub "@", ""
+      else
+
+        case cmd
+
+          #if user want change folder, SRBC change current work dir
+          when  /cd/
+
+            if cmd =~ /\.\./ || cmd =~/^cd$/
+              temp_path = path.split '/'
+              temp_path.delete_at temp_path.length-1
+              p temp_path
+              path = temp_path.join "\\"
+              p path
+              Dir.chdir path
+
+            else
+              begin
+                Dir.chdir cmd.gsub 'cd ', ''
+              rescue
+                puts 'Wrong path'
+              end
+            end
+
+          #  run this change current work dir if user whant change volume
+          when /^\w:$/
+            Dir.chdir cmd.gsub 'cd ', ''
+
+
+          # run app or other program
+          else
+
+            file_list = srbc.get_file_list cmd
+
+            #run file if find only one
+            if file_list.length == 1
+              file_list.each do |name, args|
+                srbc.run_file name, args
+              end
+
+              #  не найдено фалов - значит команда
+            elsif file_list.length == 0
+              p "run command #{cmd}"
+              srbc.run_programm cmd
+
+              # в остальных случаях файлов > 1
+            else
+
+              puts 'We find, more than one file:'
+
+              i = 0
+              numbered_files = {}
+              puts " 0 | Cancel "
+              file_list.each do |file|
+                i += 1
+                puts " #{i} | #{file[0]}"
+                numbered_files[i] = file[0]
+              end
+              num_file = -1
+              while num_file < 0
+                puts "Choose file to run (type @ and number of file)"
+                num_file = gets.chomp.gsub("@", "").to_i
+                if num_file > 0
+                  srbc.run_file numbered_files[num_file], file_list[numbered_files[num_file]]
+                end
+              end
+            end
+
+        end
+      end
+  end
+
   end
 
