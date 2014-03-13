@@ -1,0 +1,22 @@
+# encoding: UTF-8
+#!/usr/bin/env ruby
+require 'readline'
+require 'yaml'
+require 'fileutils'
+require_relative '../lib/srbc'
+
+
+system 'cls'
+puts 'Loading Smart Ruby Console'
+puts '__________________________'
+
+srbc = SRBC.new
+srbc.read_settings
+
+puts "\n print @help for help\n\n"
+
+#it's trap for blick ctrl+c
+trap('INT') {puts "\nprint @exit"}
+
+$x=true
+srbc.run
