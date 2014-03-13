@@ -1,14 +1,21 @@
-#require "srbc/version"
+require "srbc/version"
+
 
 class SRBC
 
+    def initialize
+      @ext = []
+      @gem_root = Gem.loaded_specs['srbc'].full_gem_path
+
+
+    end
     #write extension to file/ return - extension array
     def set_settings(settings)
 
       #сheck added extension early or not
       unless @ext.include? settings
         @ext << settings
-        File.open("settings.yml", 'w') do |file|
+        File.open("#{@gem_root}/settings.yml", 'w') do |file|
           file.write @ext.to_yaml
         end
       else
@@ -20,9 +27,9 @@ class SRBC
   #try read settings, if not exsist crate settings file
     def read_settings
       begin
-        @ext =  YAML::load_file "C:\\Program Files\\srbc\\settings.yml"
+        @ext =  YAML::load_file "#{@gem_root}/settings.yml"
       rescue
-        set_settings ['*.rb']
+        set_settings '*.rb'
       end
     end
 
@@ -50,6 +57,7 @@ class SRBC
           puts '| @list        | extension list   |'
           puts '| @exit        | exit from app    |'
           puts '| @add "*.rb"  | add extension    |'
+          puts "\n\n"
 
 
         when 'list'
@@ -94,7 +102,6 @@ class SRBC
   end
 
   def run_file(name, args="")
-    #todo: run file with arguments. spit to array by " "
      #puts "RUNN: ruby #{name} #{args}"
      system "ruby #{name} #{args}"
   end
@@ -116,7 +123,7 @@ class SRBC
 
       #if user type command start with @ - run srbc command
       if cmd =~ /^@/
-        srbc.srbc_command cmd.gsub "@", ""
+        self.srbc_command cmd.gsub "@", ""
       else
 
         case cmd
@@ -148,18 +155,18 @@ class SRBC
           # run app or other program
           else
 
-            file_list = srbc.get_file_list cmd
+            file_list = self.get_file_list cmd
 
             #run file if find only one
             if file_list.length == 1
               file_list.each do |name, args|
-                srbc.run_file name, args
+                self.run_file name, args
               end
 
               #  не найдено фалов - значит команда
             elsif file_list.length == 0
               p "run command #{cmd}"
-              srbc.run_programm cmd
+              self.run_programm cmd
 
               # в остальных случаях файлов > 1
             else
@@ -179,7 +186,7 @@ class SRBC
                 puts "Choose file to run (type @ and number of file)"
                 num_file = gets.chomp.gsub("@", "").to_i
                 if num_file > 0
-                  srbc.run_file numbered_files[num_file], file_list[numbered_files[num_file]]
+                  self.run_file numbered_files[num_file], file_list[numbered_files[num_file]]
                 end
               end
             end
@@ -189,4 +196,5 @@ class SRBC
   end
 
   end
+end
 
