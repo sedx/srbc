@@ -5,7 +5,7 @@ require 'srbc/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "srbc"
-  spec.version       = Srbc::VERSION
+  spec.version       = SrbcVersion::VERSION
   spec.authors       = ["Ilya Bondarenko"]
   spec.email         = ["bondarenko.ik@gmail.com"]
   spec.summary       = %q{SRBC extend windows comand line. Provide easy way to run ruby scripts}

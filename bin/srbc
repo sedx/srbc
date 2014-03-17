@@ -6,13 +6,13 @@ require 'fileutils'
 require_relative '../lib/srbc'
 
 #if x=true gem run, when x=false gem will exit
-$x=true
+
 
 # chen how many options user specify
 if ARGV.length >1
   puts "You can run ony one executor"
 
-#todo: remove into gem. run without arguments
+#todo: ?remove into gem. run without arguments
 #if user add
 elsif ARGV[0] =~/add:/
   new_executor = ARGV[0].gsub( ' ','').gsub '-add:', ''
@@ -42,13 +42,10 @@ else
 
   ARGV.empty? ? executor = 'ruby' : executor = ARGV[0].gsub("-","")
   srbc = SRBC.new(executor)
-  STDOUT.sync = true
-  STDOUT.flush
-  p 'flush!'
-  puts "\nSmart Ruby Console. Executor: #{executor}"
+  puts "\nSmart Ruby Console #{SrbcVersion::VERSION}. Executor: #{executor}"
   puts '__________________________'
   srbc.read_settings
-  if $x
+  if srbc.lunched
     puts "\n print @help for help\n\n"
   end
 

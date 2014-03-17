@@ -1,5 +1,4 @@
- Smart Ruby Console help
- =======================
+  =======================
 
  Usage:    You can run *.rb files, or
            other in ruby, just print "main"
@@ -32,15 +31,15 @@ Arguments:
 
  Comands:
 
-          | @help        | this help               |
-          | @list        | extension list          |
-          | @exit        | exit from app           |
-          | @add "*.rb"  | add extension           |
-          | @current     | current executor        |
-          | !<command>   | run program. use when   |
-          |              | have same name programm |
-          |              | and file, like pnig.rb  |
+      shortcut     command           description
+      _________________________________________________
+     |   @h   | @help        | this help               |
+     |   @l   | @list        | extension list          |
+     |   @e   | @exit        | exit from app           |
+     |   --   | @add "*.rb"  | add extension           |
+     |   @c   | @current     | current executor        |
+     |   --   | !<command>   | run program. use when   |
+     |        |              | have same name programm |
+     |        |              | and file, like pnig.rb  |
 
 
-          You can shortcut commands.
-          Example: @h for help

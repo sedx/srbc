@@ -6,12 +6,12 @@ module SRBC_cli
 
     if @settings[@executor].nil?
       puts "\n Executor not defined. Run srbc with -add:<executor> options "
-      $x = false
+      self.runed = false
     else
       @ext = @settings[@executor]
     end
 
-    while $x do
+    while self.lunched do
       #get current path
       path = Dir.pwd
 

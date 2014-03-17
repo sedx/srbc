@@ -1,10 +1,9 @@
-require 'srbc/version'
 require 'srbc/srbc_command'
 require 'srbc/srbc_cli'
 
 
 class SRBC
-    attr_accessor :settings
+    attr_accessor :settings, :lunched
     include SrbcCommand
     include SRBC_cli
 
@@ -14,6 +13,7 @@ class SRBC
       @gem_root = Gem.loaded_specs['srbc'].full_gem_path
       @executor = executor
       @settings ={}
+      @lunched = true
     end
 
     #write extension to file/ return - extension array
