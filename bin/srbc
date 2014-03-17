@@ -12,6 +12,7 @@ $x=true
 if ARGV.length >1
   puts "You can run ony one executor"
 
+#todo: remove into gem. run without arguments
 #if user add
 elsif ARGV[0] =~/add:/
   new_executor = ARGV[0].gsub( ' ','').gsub '-add:', ''
@@ -41,6 +42,9 @@ else
 
   ARGV.empty? ? executor = 'ruby' : executor = ARGV[0].gsub("-","")
   srbc = SRBC.new(executor)
+  STDOUT.sync = true
+  STDOUT.flush
+  p 'flush!'
   puts "\nSmart Ruby Console. Executor: #{executor}"
   puts '__________________________'
   srbc.read_settings

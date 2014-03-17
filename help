@@ -11,7 +11,9 @@
            you what file run.
 
            When SRBC run default MS symbol
-           in console > replace with ~
+           in console > replace with~.
+           Every line will start with R :
+           R - is first letter of executor
 
            You can use other executor.
            Run "srbc -add:cucumber"
@@ -30,10 +32,15 @@ Arguments:
 
  Comands:
 
-          | @help        | this help        |
-          | @list        | extension list   |
-          | @exit        | exit from app    |
-          | @add "*.rb"  | add extension    |
+          | @help        | this help               |
+          | @list        | extension list          |
+          | @exit        | exit from app           |
+          | @add "*.rb"  | add extension           |
+          | @current     | current executor        |
+          | !<command>   | run program. use when   |
+          |              | have same name programm |
+          |              | and file, like pnig.rb  |
+
 
           You can shortcut commands.
           Example: @h for help
