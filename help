@@ -39,8 +39,11 @@ Arguments:
      |   --   | @add "*.rb"  | add extension           |
      |   @c   | @current     | current executor        |
      |   --   | @#<executor> | hot change executor     |
+     |        |              | if executor not exits   |
+     |        |              | will created new        |
      |   --   | !<command>   | run program. use when   |
      |        |              | have same name programm |
      |        |              | and file, like pnig.rb  |
+
 
 

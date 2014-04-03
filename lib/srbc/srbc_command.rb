@@ -22,6 +22,11 @@ module SrbcCommand
       when /^#/
       @executor = command.gsub(' ','').gsub '#', ''
         @ext = @settings[@executor]
+        if @ext.nil?
+          puts "You use #{@executor} first time. Please add extension!"
+          ext = gets.chomp
+          set_settings @executor, ext
+        end
 
       when 'l','list'
         puts "Current [#{@executor}]:"

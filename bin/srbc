@@ -10,7 +10,7 @@ require_relative '../lib/srbc'
 
 # chen how many options user specify
 if ARGV.length >1
-  puts "You can run ony one executor"
+  puts 'You can run ony one executor'
 
 #todo: ?remove into gem. run without arguments
 #if user add
@@ -25,22 +25,22 @@ elsif ARGV[0] =~/add:/
   srbc.run
 
 elsif ARGV[0] =~/help/
-  srbc = SRBC.new("ruby")
-  srbc.srbc_command("help")
+  srbc = SRBC.new('ruby')
+  srbc.srbc_command('help')
 
 elsif ARGV[0] =~/list/
-  srbc = SRBC.new("ruby")
+  srbc = SRBC.new('ruby')
   srbc.read_settings
   srbc.read_settings.each do |executor, extension|
     puts "\n====="
     puts "#{executor}"
-    puts "-----"
+    puts '-----'
     extension.each { |ext| puts "   #{ext}"}
    end
 
 else
 
-  ARGV.empty? ? executor = 'ruby' : executor = ARGV[0].gsub("-","")
+  ARGV.empty? ? executor = 'ruby' : executor = ARGV[0].gsub('-','')
   srbc = SRBC.new(executor)
   puts "\nSmart Ruby Console #{SrbcVersion::VERSION}. Executor: #{executor}"
   puts '__________________________'

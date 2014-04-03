@@ -5,3 +5,5 @@ add command @# to change executor
 #0.0.4
 fix empty ine bug
 fix cd to root directory
+#0.0.5
+fix bug when with add first extension to new executor

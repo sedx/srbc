@@ -19,7 +19,7 @@ class SRBC
     #write extension to file/ return - extension array
     def set_settings(executor, extension)
       if extension =~ /^\*\..*$/ && extension !~ /^\*\.$/
-
+      @ext ||= []
       #сheck added extension early or not
       unless @ext.include? extension
         @ext << extension
