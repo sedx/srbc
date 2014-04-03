@@ -14,7 +14,6 @@ module SRBC_cli
     while self.lunched do
       #get current path
       path = Dir.pwd
-
       #wait command and realise history of command
       command = Readline.readline("#{@executor.chr.upcase}# #{path.gsub "/", "\\"}~ ", true)
       command = nil if command.nil?
@@ -28,6 +27,8 @@ module SRBC_cli
       #if user type command start with @ - run srbc command
       if cmd =~ /^@/
         self.srbc_command cmd.gsub "@", ""
+      elsif cmd == ''
+        cmd = ' '
       else
 
         case cmd
@@ -36,13 +37,16 @@ module SRBC_cli
           when  /cd/
 
             if cmd =~ /\.\./ || cmd =~/^cd$/
-              temp_path = path.split '/'
-              temp_path.delete_at temp_path.length-1
-              p temp_path
-              path = temp_path.join "\\"
-              p path
-              Dir.chdir path
-
+              temp_path = Dir.pwd.split '/'
+              if temp_path.length > 1
+                temp_path.delete_at temp_path.length-1
+                if temp_path.length > 1
+                  path = temp_path.join "\\"
+                  Dir.chdir path
+                else
+                 Dir.chdir "#{temp_path[0]}\\"
+                end
+              end
             else
               begin
                 Dir.chdir cmd.gsub 'cd ', ''
@@ -53,7 +57,7 @@ module SRBC_cli
 
           #  command X: change current work dir if user whant change volume
           when /^\w:$/
-            Dir.chdir cmd.gsub 'cd ', ''
+            Dir.chdir cmd
 
 
           #run with skip executor.
@@ -62,6 +66,8 @@ module SRBC_cli
             run_program cmd.gsub '!',''
 
           # run app or other program
+          when /^$|^ *$/
+            #skip when empty command
           else
 
             file_list = self.get_file_list cmd

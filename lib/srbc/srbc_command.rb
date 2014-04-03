@@ -18,7 +18,10 @@ module SrbcCommand
           end
         end
 
-      #todo: hot change executor
+      #hot change executor
+      when /^#/
+      @executor = command.gsub(' ','').gsub '#', ''
+        @ext = @settings[@executor]
 
       when 'l','list'
         puts "Current [#{@executor}]:"

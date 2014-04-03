@@ -38,6 +38,7 @@ Arguments:
      |   @e   | @exit        | exit from app           |
      |   --   | @add "*.rb"  | add extension           |
      |   @c   | @current     | current executor        |
+     |   --   | @#<executor> | hot change executor     |
      |   --   | !<command>   | run program. use when   |
      |        |              | have same name programm |
      |        |              | and file, like pnig.rb  |

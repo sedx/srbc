@@ -38,9 +38,7 @@ class SRBC
 
   #try read settings, if not exsist crate settings file
     def read_settings
-      begin
         @settings =  YAML::load_file "#{@gem_root}/settings.yml"
-      end
     end
 
     def get_file_list (name)
@@ -53,7 +51,7 @@ class SRBC
         file = Dir.glob extension
 
         #delete files not compare with typed file name
-        file.delete_if {|f| f !~ /#{file_name}/}
+        file.delete_if {|f| f !~ /^#{file_name}/}
         file.each do |file_nme|
           file_list = file_list.merge Hash[file_nme, args]
         end
