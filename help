@@ -1,7 +1,7 @@
   =======================
 
  Usage:    You can run *.rb files, or
-           other in ruby, just print "main"
+           other in ruby, just type "main"
            to execute "ruby main.rb".
 
            If in folder same files contains
@@ -45,6 +45,7 @@ Arguments:
      |   --   | !<command>   | run program. use when   |
      |        |              | have same name programm |
      |        |              | and file, like pnig.rb  |
+     __________________________________________________
 
 
 

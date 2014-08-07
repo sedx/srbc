@@ -7,8 +7,7 @@ require_relative '../lib/srbc'
 
 #if x=true gem run, when x=false gem will exit
 
-
-# chen how many options user specify
+# check how many options user specify
 if ARGV.length >1
   puts 'You can run ony one executor'
 
@@ -46,7 +45,7 @@ else
   puts '__________________________'
   srbc.read_settings
   if srbc.lunched
-    puts "\n print @help for help\n\n"
+    puts "\n type @help for help\n\n"
   end
 
   #it's trap for blick ctrl+c

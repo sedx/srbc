@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Ilya Bondarenko"]
   spec.email         = ["bondarenko.ik@gmail.com"]
   spec.summary       = %q{SRBC extend windows comand line. Provide easy way to run ruby scripts}
-  spec.description   = %q{Start ruby Console with extend features. Let execute ruby files without print "ruby" and "rb" extention}
+  spec.description   = %q{Start ruby Console with extend features. Let execute ruby files without type "ruby" and "rb" extention.For exmple: type "main" to execute "runy main.rb". Also you can add custom executor: cucumber, python, ping or what you want.}
   spec.homepage      = ""
   spec.license       = "MIT"
 
