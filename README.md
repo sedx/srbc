@@ -1,6 +1,13 @@
 # Srbc
+SmartRuByConsole its executable gem for simple runing gem scripts.
 
-TODO: Write a gem description
+You can run *.rb files, or other in ruby, just type "main" to execute "ruby main.rb".
+
+If in folder same files contains "main" (for example main_foo.rb, main_bar.rb and main.rb) SRBC ask you what file run.
+
+When SRBC run, default MS symbol in console > replace with~. Every line will start with R :  R - is first letter of current executor.
+
+You can use other executor. Run "srbc -add:cucumber" to add new executor. Then run "srbc -cucumber" to start Smart Ruby Console with cucumber executor.
 
 ## Installation
 
@@ -18,25 +25,6 @@ Or install it yourself as:
 
 ## Usage
 
-Usage:    You can run *.rb files, or
-           other in ruby, just print "main"
-           to execute "ruby main.rb".
-
-           If in folder same files contains
-           "main" (for example foo_main.rb,
-           bar_main.rb and main.rb) SRBC ask
-           you what file run.
-
-           When SRBC run default MS symbol
-           in console > replace with ~
-
-           You can use other executor.
-           Run "srbc -add:cucumber"
-           to add new executor.
-           Then run "srbc -cucumber" to start
-           Smart Ruby Console with cucumber executor.
-
-
 Arguments:
            -add:<exexutor>      add executor
            -<executor>          run with executor
@@ -47,13 +35,22 @@ Arguments:
 
  Comands:
 
-          | @help        | this help        |
-          | @list        | extension list   |
-          | @exit        | exit from app    |
-          | @add "*.rb"  | add extension    |
+      shortcut     command           description
+      _________________________________________________
+     |   @h   | @help        | this help               |
+     |   @l   | @list        | extension list          |
+     |   @e   | @exit        | exit from app           |
+     |   --   | @add "*.rb"  | add extension           |
+     |   @c   | @current     | current executor        |
+     |   --   | @#<executor> | hot change executor     |
+     |        |              | if executor not exits   |
+     |        |              | will created new        |
+     |   --   | @delete <exc>| delete executor         |
+     |   --   | !<command>   | run program. use when   |
+     |        |              | have same name programm |
+     |        |              | and file, like pnig.rb  |
+     __________________________________________________
 
-          You can shortcut commands.
-          Example: @h for help
 
 ## Contributing
 
