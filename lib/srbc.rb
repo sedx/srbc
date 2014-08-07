@@ -29,7 +29,7 @@ class SRBC
         @settings[executor] = @ext
         save_settings
       else
-      puts 'Wrong format! You muts type "@add *.extenssion"'
+      puts 'Wrong format! You muts type "@add *.extension"'
       end
     end
 

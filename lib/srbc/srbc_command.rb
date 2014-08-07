@@ -67,6 +67,9 @@ module SrbcCommand
 
   def run_program(name)
     system "#{name}"
+    if $?.pid == 0
+      puts "#{name} not found"
+    end
   end
 
   def run_file(name, args="")

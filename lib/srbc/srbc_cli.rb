@@ -85,7 +85,6 @@ module SRBC_cli
 
               #  не найдено фалов - значит команда
             elsif file_list.length == 0
-              p "run command #{cmd}"
               run_program cmd
 
               # в остальных случаях файлов > 1
