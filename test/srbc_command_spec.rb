@@ -13,9 +13,4 @@ describe SrbcCommand do
     srbc_command command
     $x.should eq false
   end
-
-
-
-
-
 end

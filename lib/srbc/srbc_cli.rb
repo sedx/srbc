@@ -1,3 +1,5 @@
+#-*- coding:utf-8 -*-
+
 module SRBC_cli
 #  contain commandline inetfeice
 #  and detect SRBC command execute, file or system programm
@@ -21,7 +23,7 @@ module SRBC_cli
         Readline::HISTORY.pop
       end
 
-      cmd = command.gsub("#{path}~ ", '').downcase
+      cmd = command.gsub("#{path}~ ", '')
 
 
       #if user type command start with @ - run srbc command
@@ -31,7 +33,7 @@ module SRBC_cli
         cmd = ' '
       else
 
-        case cmd
+        case cmd.downcase
 
           # command cd - SRBC change current work dir
           when  /cd/
@@ -57,8 +59,11 @@ module SRBC_cli
 
           #  command X: change current work dir if user whant change volume
           when /^\w:$/
-            Dir.chdir cmd
-
+            begin
+              Dir.chdir cmd
+            rescue
+              puts "Path not found"
+            end
 
           #run with skip executor.
           # Use when you whant execute system command ping and have ping.rb un current folder

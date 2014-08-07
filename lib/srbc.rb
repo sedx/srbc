@@ -27,11 +27,15 @@ class SRBC
         puts 'Extension already added'
       end
         @settings[executor] = @ext
-        File.open("#{@gem_root}/settings.yml", 'w') do |file|
-        file.write @settings.to_yaml
-        end
+        save_settings
       else
       puts 'Wrong format! You muts type "@add *.extenssion"'
+      end
+    end
+
+    def save_settings
+      File.open("#{@gem_root}/settings.yml", 'w') do |file|
+        file.write @settings.to_yaml
       end
     end
 

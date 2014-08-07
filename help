@@ -41,6 +41,7 @@ Arguments:
      |   --   | @#<executor> | hot change executor     |
      |        |              | if executor not exits   |
      |        |              | will created new        |
+     |   --   | @delete <exc>| delete executor         |
      |   --   | !<command>   | run program. use when   |
      |        |              | have same name programm |
      |        |              | and file, like pnig.rb  |
