@@ -26,11 +26,12 @@ Or install it yourself as:
 ## Usage
 
 Arguments:
-           -add:<exexutor>      add executor
-           -<executor>          run with executor
-           -help                for this help
-           -list                list of executors
-           no arguments         run ruby executor
+
+    -add:<exexutor>      add executor
+    -<executor>          run with executor
+    -help                for this help
+    -list                list of executors
+    no arguments         run ruby executor
 
 
  Comands:
