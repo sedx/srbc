@@ -13,3 +13,5 @@ add command delete executor
 fix bug, when you try change psth to unknow disk
 #0.0.8
 remove downcasse
+#0.0.9
+minor changes
