@@ -49,7 +49,7 @@ else
   end
 
   #it's trap for blick ctrl+c
-  trap('INT') {puts "\nprint @exit"}
+  trap('INT') {puts "\ntype @exit"}
 
   srbc.run
 

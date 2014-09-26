@@ -37,8 +37,7 @@ module SRBC_cli
 
           # command cd - SRBC change current work dir
           when  /cd/
-
-            if cmd =~ /\.\./ || cmd =~/^cd$/
+            if cmd =~ /\.\.$/ || cmd =~/^cd$/
               temp_path = Dir.pwd.split '/'
               if temp_path.length > 1
                 temp_path.delete_at temp_path.length-1
@@ -47,6 +46,17 @@ module SRBC_cli
                   Dir.chdir path
                 else
                  Dir.chdir "#{temp_path[0]}\\"
+                end
+              end
+            elsif cmd =~ /\.\.\/.*|\.\.\\.*/
+              temp_path = Dir.pwd.split '/'
+              if temp_path.length > 1
+                temp_path.delete_at temp_path.length-1
+                if temp_path.length > 1
+                  path = temp_path.join "\\"
+                  Dir.chdir path+cmd.gsub('cd ..','')
+                else
+                  Dir.chdir "#{temp_path[0]}\\"+cmd.gsub('cd ..','')
                 end
               end
             else

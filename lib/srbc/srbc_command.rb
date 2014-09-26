@@ -73,7 +73,7 @@ module SrbcCommand
   end
 
   def run_file(name, args="")
-    #puts "RUNN: ruby #{name} #{args}"
+    puts "RUNN: #{@exexutor} #{name} #{args}"
     system "#{@executor} #{name} #{args}"
   end
 end
